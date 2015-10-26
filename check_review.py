@@ -8,6 +8,9 @@ file_name = input("Please enter the name of the text file: ")
 # Flag used to ensure file is opened
 open_flag = 0
 
+# Count of total words in file.
+word_count = 0
+
 # Loop through trying to open the file and re-ask user for input if it does not work.
 while not open_flag:
     try:
@@ -26,6 +29,7 @@ word_bank = {}
 for line in file:
     line_list = line.split()
     for word in line_list:
+        word_count += 1
         try:
             word_bank[word] += 1
         except KeyError:
@@ -33,6 +37,7 @@ for line in file:
 
 correct_words = 0
 incorrect_words = 0
+all_caps_words = 0
 
 d = enchant.Dict("en_US")
 
@@ -42,8 +47,11 @@ for key in word_bank:
         correct_words += 1
     else:
         incorrect_words += 1
+    # Check if the word is ALL-CAPS
+    if key.isupper():
+        all_caps_words += 1
 
+print("Total Words: %d" % word_count)
 print("Correct, English words: %d" % correct_words)
 print("Incorrect words: %d" % incorrect_words)
-
-
+print("All Caps words: %d" % all_caps_words)
