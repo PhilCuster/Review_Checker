@@ -9,13 +9,14 @@ import java.util.StringTokenizer;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 public class CheckIfFake extends MainMenu{
-	private int allCapsWordCount = 0, wordTotal = 0, totalWordLength = 0, misspelled = 0;
-	private boolean caps = false, wordLength = false, misspell = false;
+	private int allCapsWordCount = 0, wordTotal = 0, totalWordLength = 0;
+	private boolean caps = false, wordLength = false, misspell = false, totalWords = false, wordMatch = false, averageWordLen = false;
+	private double percentMisspelled = 0, percentOfCaps = 0, averageWordLength = 0, percentWordMatch;
 
 	public void beginProcess() {
 		
-		//PythonRunner pr = new PythonRunner();
-		//separateData(pr.connectToPython());
+		PythonRunner pr = new PythonRunner();
+		separateData(pr.connectToPython());
 		//non python stuff 
 		Scanner scan = null;
 		try {
@@ -31,16 +32,24 @@ public class CheckIfFake extends MainMenu{
 		 catch(NoSuchElementException ex){}       
 		wordLength = wordLength();
 		misspell = updateMisspelled();
+		caps = updateCaps();
+		totalWords = updateFileLength();
+		wordMatch = updateWordMatch();
+		averageWordLen = updateAverageWordLength();
+		
 		updateResult();
 		scan.close();
 	}
 	
 	
 	private void separateData(String[] data){
-		misspelled = Integer.parseInt(data[0]);
-		allCapsWordCount = Integer.parseInt(data[1]);
-		totalWordLength = Integer.parseInt(data[2]);
+		try{
+		percentMisspelled = Double.parseDouble(data[0]);
+		percentOfCaps = Double.parseDouble(data[1]);
+		averageWordLength = Double.parseDouble(data[2]);
 		wordTotal = Integer.parseInt(data[3]);
+		percentWordMatch = Double.parseDouble(data[4]);}
+		catch(Exception e){};
 	}
 	
 	private boolean checkForCaps(String line){
@@ -66,19 +75,41 @@ public class CheckIfFake extends MainMenu{
 	
 	private boolean updateMisspelled(){
 		
-		if(misspelled >2){return true;}
+		if(percentMisspelled > .2){return true;}
 		else{return false;}
 	}
 	
+	private boolean updateCaps(){
+		if(percentOfCaps > .2){return true;}
+		else{return false;}
+	}
+	
+	private boolean updateFileLength(){
+		if(wordTotal > 20){return false;}
+		else return true;
+	}
+	
+	private boolean updateAverageWordLength(){
+		if(averageWordLength > 5){return false;}
+		else return true;
+	}
+	
+	private boolean updateWordMatch(){
+		if(percentWordMatch > .2){return true;}
+		else return false;
+	}
 	
 	private void updateResult(){
 		boolean result;
 		int trueTally = 0;
 		
 		if(caps == true){trueTally++;}
-		if(wordLength == true){trueTally++;}
+		//if(wordLength == true){trueTally++;}
 		if(misspell == true){trueTally++;}
-		if(trueTally > 1){result = true;}
+		if(totalWords == true){trueTally++;}
+		if(wordMatch == true){trueTally++;}
+		if(averageWordLen == true){trueTally++;}
+		if(trueTally > 2){result = true;}
 		else{ result = false;}
 		if(result){
 			answer = "This review appears to be real.";

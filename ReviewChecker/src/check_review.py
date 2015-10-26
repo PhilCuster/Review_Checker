@@ -1,23 +1,25 @@
 __author__ = 'Phil'
 
 import enchant
+import sys
 
 # Prompts the user to enter the name of the text file and then saves it.
-file_name = input("Please enter the name of the text file: ")
-
-# Flag used to ensure file is opened
-open_flag = 0
+try:
+    file_name = sys.argv[1]
+except IndexError:
+    print("No argument given, usage: 'check_review.py [filepath]'")
+    exit(0)
 
 # Count of total words in file.
 word_count = 0
 
-# Loop through trying to open the file and re-ask user for input if it does not work.
-while not open_flag:
-    try:
-        file = open(file_name, 'r')
-        open_flag = 1
-    except IOError:
-        file_name = input("File does not exist! Please re-enter filename: ")
+# Try to open file, quit if you cannot.
+try:
+    file = open(file_name, 'r')
+    open_flag = 1
+except IOError:
+    print("File not found!")
+    exit(0)
 
 # Initialize an empty dictionary to store words used in the file.
 word_bank = {}
