@@ -9,50 +9,86 @@ import java.util.StringTokenizer;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 public class CheckIfFake extends MainMenu{
-	private int allCapsWordCount = 0;
-	
+	private int allCapsWordCount = 0, wordTotal = 0, totalWordLength = 0, misspelled = 0;
+	private boolean caps = false, wordLength = false, misspell = false;
 
 	public void beginProcess() {
-		checkForCaps();
-		updateResult();
 		
-	}
-	
-
-	private boolean checkForCaps(){
+		PythonRunner pr = new PythonRunner();
+		separateData(pr.connectToPython());
+		//non python stuff 
 		Scanner scan = null;
-		boolean result = false;
 		try {
 	        scan = new Scanner(new File(sourcePath));
 	    } catch (FileNotFoundException e) {
 	    	MessageDialog.openError(shell, "Error", "The file" + sourcePath + " does not exist.");
-	    	return false;
 	    }
-	    try{ while (scan.hasNextLine()) {
+		 try{ 
+			 while (scan.hasNextLine()) {
 	            String line = scan.next();
-	            StringTokenizer st = new StringTokenizer(line);
-
-	            while(st.hasMoreTokens()){
-	                    String a = st.nextToken();
-	                    if(a.equals(a.toUpperCase())){
-	                       allCapsWordCount++;
-	                       result = true;}
-	                    }}}
-	            catch(NoSuchElementException ex){}
-	    scan.close();
-	    return result;
+	            caps = checkForCaps(line);}}
+		 catch(NoSuchElementException ex){}       
+		wordLength = wordLength();
+		misspell = updateMisspelled();
+		updateResult();
+		scan.close();
 	}
 	
+	
+	private void separateData(String[] data){
+		misspelled = Integer.parseInt(data[0]);
+		allCapsWordCount = Integer.parseInt(data[1]);
+		totalWordLength = Integer.parseInt(data[2]);
+		wordTotal = Integer.parseInt(data[3]);
+	}
+	
+	private boolean checkForCaps(String line){
+		StringTokenizer st = new StringTokenizer(line);
+	            while(st.hasMoreTokens()){
+	                    String a = st.nextToken();
+	                    wordTotal++;
+	                    totalWordLength = totalWordLength + a.length();
+	                    if(a.equals(a.toUpperCase())){
+	                       allCapsWordCount++;}
+	                    }
+	            
+	  if(allCapsWordCount > 3){return true;}
+	  else{return false;}
+	}
+	
+	private boolean wordLength(){
+		double avgLength;
+		avgLength = totalWordLength/wordTotal;
+		if (avgLength > 5){return false;}
+		else {return true;}
+	}
+	
+	private boolean updateMisspelled(){
+		
+		if(misspelled >2){return true;}
+		else{return false;}
+	}
+	
+	
 	private void updateResult(){
-		if(allCapsWordCount > 3){
+		boolean result;
+		int trueTally = 0;
+		
+		if(caps == true){trueTally++;}
+		if(wordLength == true){trueTally++;}
+		if(misspell == true){trueTally++;}
+		if(trueTally > 1){result = true;}
+		else{ result = false;}
+		if(result){
 			answer = "This review appears to be real.";
 			red = 2; green = 136; blue = 59;
-			}
+		}
 		else{
 			answer = "This review appears to be fake.";
-			red = 205;
+			red = 205; green = 0; blue = 0;
 			}
 		
 	}
+	
 	
 }
