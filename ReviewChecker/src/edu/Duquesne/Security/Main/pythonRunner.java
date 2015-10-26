@@ -13,7 +13,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 
 public class PythonRunner extends MainMenu{
 	private File file = null;
-	private String connection = "src/connection.txt", idled = "src/completed.txt", pythonScript = "src/check_review.py";
+	private String connection = "src/connection.txt", idled = "src/completed.txt", pythonPath = "C:/Python 27", pythonScriptPath = "src/check_review.py";
 	private String[] data = new String[10];
 	
 	String[] connectToPython(){
@@ -26,7 +26,10 @@ public class PythonRunner extends MainMenu{
 	
 	private void startPython(){
 		try {
-			Process p = Runtime.getRuntime().exec(pythonScript);
+			//ProcessBuilder pb = new ProcessBuilder(pythonScriptPath, pythonPath);
+			//Process p = pb.start();
+			//String[] command = {"python", pythonScriptPath};
+			Process p = Runtime.getRuntime().exec(pythonScriptPath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

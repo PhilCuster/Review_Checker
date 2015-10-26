@@ -14,8 +14,8 @@ public class CheckIfFake extends MainMenu{
 
 	public void beginProcess() {
 		
-		//PythonRunner pr = new PythonRunner();
-		//separateData(pr.connectToPython());
+		PythonRunner pr = new PythonRunner();
+		separateData(pr.connectToPython());
 		//non python stuff 
 		Scanner scan = null;
 		try {
