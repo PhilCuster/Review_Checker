@@ -98,7 +98,7 @@ public class MainMenu {
 		runChecker.addSelectionListener(new SelectionAdapter(){
 			public void widgetSelected(SelectionEvent e){
 				sourcePath = sourceFile.getText();
-				CheckIfFake cif = new CheckIfFake();
+				CheckIfFake2 cif = new CheckIfFake2();
 				cif.beginProcess();
 				result.setForeground(SWTResourceManager.getColor(red, green, blue));
 				result.setText(answer);
