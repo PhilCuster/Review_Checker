@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 
-public class CheckIfFake extends MainMenu{
+public class CheckIfFake2 extends MainMenu{
 	private int allCapsWordCount = 0, wordTotal = 0, totalWordLength = 0, misspelled = 0;
 	private boolean caps = false, wordLength = false, misspell = false;
 
