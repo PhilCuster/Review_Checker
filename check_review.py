@@ -84,4 +84,5 @@ print(word_count)
 print(length_average)
 print(good_words_percent)
 
-exit([misspelled_percent,all_caps_percent,word_count,length_average,good_words_percent])
+with open('connection.txt', 'w') as out:
+    out.write(str(misspelled_percent) + ' ' + str(all_caps_percent) + ' ' + str(word_count) + ' ' + str(length_average) + ' ' + str(good_words_percent))
