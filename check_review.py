@@ -86,3 +86,5 @@ print(good_words_percent)
 
 with open('connection.txt', 'w') as out:
     out.write(str(misspelled_percent) + ' ' + str(all_caps_percent) + ' ' + str(word_count) + ' ' + str(length_average) + ' ' + str(good_words_percent))
+
+open('completed.txt', 'w')
