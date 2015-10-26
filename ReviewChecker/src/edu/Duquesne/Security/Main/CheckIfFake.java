@@ -14,14 +14,15 @@ public class CheckIfFake extends MainMenu{
 
 	public void beginProcess() {
 		
-		PythonRunner pr = new PythonRunner();
-		separateData(pr.connectToPython());
+		//PythonRunner pr = new PythonRunner();
+		//separateData(pr.connectToPython());
 		//non python stuff 
 		Scanner scan = null;
 		try {
 	        scan = new Scanner(new File(sourcePath));
 	    } catch (FileNotFoundException e) {
 	    	MessageDialog.openError(shell, "Error", "The file" + sourcePath + " does not exist.");
+	    	return;
 	    }
 		 try{ 
 			 while (scan.hasNextLine()) {

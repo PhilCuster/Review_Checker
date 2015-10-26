@@ -63,7 +63,8 @@ public class MainMenu {
 		Canvas logo = new Canvas(shell, SWT.NONE);
 		logo.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
 		logo.setBackgroundImage(SWTResourceManager.getImage(MainMenu.class, "/images/Review-Checker.jpg"));
-		logo.setBounds(110, 10, 616, 210);
+		logo.setBounds(110, 10, 616, 220);
+		
 		
 		sourceFile = new Text(shell, SWT.BORDER);
 		sourceFile.setBackground(SWTResourceManager.getColor(211, 211, 211));

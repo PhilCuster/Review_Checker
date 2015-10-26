@@ -18,6 +18,7 @@ public class PythonRunner extends MainMenu{
 	
 	String[] connectToPython(){
 		makeFiles();
+		startPython();
 		idle();
 		extractData();
 		return data;
@@ -30,6 +31,8 @@ public class PythonRunner extends MainMenu{
 			e.printStackTrace();
 		}
 	}
+	
+	
 	private void idle(){
 		boolean sleep = true;
 		File waiting = new File(idled);
