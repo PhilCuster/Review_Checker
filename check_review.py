@@ -9,7 +9,6 @@ try:
 except IndexError:
     print("No argument given, usage: 'check_review.py [filepath]'")
     exit(0)
-print(sys.argv[1])
 
 # Count of total words in file.
 word_count = 0
